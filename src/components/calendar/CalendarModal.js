@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 import moment from 'moment';
 
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventClearActive, eventUpdated } from '../../actions/events';
+import { eventClearActive, startEventAddNew, startEventUpdate } from '../../actions/events';
 
 
 const customStyles = {
@@ -85,7 +85,6 @@ export const CalendarModal = () => {
             return;
         }
 
-        //Si la fecha inicial es igual o posterior a la fecha final....
         if ( title.trim().length < 2 ) {
             return setTitleValid(false);
         }
@@ -93,18 +92,11 @@ export const CalendarModal = () => {
         //Aqui falta grabar en la bd
         if (activeEvent) {
 
-            dispatch( eventUpdated(formValues) );
+            dispatch( startEventUpdate(formValues) );
             
         } else {
 
-            dispatch( eventAddNew({
-                ...formValues,
-                id: new Date().getTime(),
-                user: {
-                    _id: '147',
-                    name: 'UsuarioQuemado'
-                }   
-            }) );
+            dispatch( startEventAddNew(formValues) );
             
         }
         
